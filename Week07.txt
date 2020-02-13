@@ -1,0 +1,15 @@
+/* สรุปแลปสัปดาห์ที่ 7 เรื่อง " Github " */
+
+1. การติดตั้ง Git ในเครื่องคอมพิวเตอร์ ให้ดาวน์โหลดโปรแกรมจาก "https://git-scm.com/downloads"
+2. ตรวจสอบว่า Git ใช้งานได้ โดยเปิด Command Prompt / Terminal แล้วพิมพ์คำสั่ง ((git --version))
+3. สร้าง directory แล้วเปลี่ยน working directory ไปที่ directory นั้น
+4. สร้าง git repository แล้วใช้คำสั่ง ((git init)) จากนั้นจะได้ hidden file
+5. ตรวจสอบสถานะของไฟล์ด้วยคำสั่ง ((git status)) ควรตรวจสอบทุกครั้ง เมื่อมีการสร้างไฟล์ใหม่ หรือไฟล์เดิมมีการแก้ไข หรือไฟล์ถูกลบ
+6. เพิ่มไฟล์เข้า staging area ด้วยคำสั่ง ((git add ชื่อไฟล์))
+7. ตั้งค่าชื่อและอีเมลเพื่อระบุตัวผู้ commit ด้วยคำสั่ง ((git config user.name "ชื่อ")) และ ((git config user.email "อีเมล"))
+8. ทำการ commit โดยใช้คำสั่ง ((git commit -m "ข้อความประกอบ"))
+9. วิธี checkpoint ให้ใช้คำสั่ง ((git log --all --decorate --oneline --graph)) เพื่อดูสิ่งที่เกิดขึ้นกับไฟล์นั้น
+10. สร้าง repository ในเว็บ github
+11. การอัพไฟล์ขึ้น github ใช้ ((git push -u origin master))
+
+หมายเหตุ : วิธีเอาไฟล์จาก github ลงเครื่องตัวเอง ให้ copy url แล้วใช้ ((git clone https://ตามด้วย url ที่ copy ไว้))
