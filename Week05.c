@@ -1,6 +1,6 @@
-/* สรุปแลปสัปดาห์ที่ 5 เรื่อง " Array and Pointer " */
+/* สรุปแลปสัปดาห์ที่ 5 เรื่อง " Array and Pointer " */ 
 
-#include <stdio.h>
+#include <stdio.h> 
 int main(){
     
     /* int x = 100; //เลขฐานสิบ
