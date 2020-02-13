@@ -8,6 +8,7 @@ return-value-type function-name (parameter-list)
     statement
     statement
     :
+    :
 } */
 
 /* // Function Prototypes : เป็นการประกาศการใช้งานฟังก์ชั่นที่อยู่หลัง main() type
