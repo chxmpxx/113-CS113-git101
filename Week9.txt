@@ -1,0 +1,62 @@
+สรุป LAB สัปดาห์ที่ 9 เรื่อง " Branch Merge Conflict "
+
+# การสร้าง/แยก Branch 
+    1. คำสั่งการสร้าง Branch : git branch <branch-name> เช่น git branch feature
+        - การสร้าง Branch ที่แยกออกจาก Branch เดิม (Branch หลักคือ master) เป็นการแยกส่วนการพัฒนาออกจากกัน เพื่อคงสภาพ Checkpoint ที่เป็นส่วนใหญ่
+    2. คำสั่งตรวจสอบว่ามี Branch ใดบ้าง : git branch
+        - จะเห็นว่ามี * อยู่นำหน้าชื่อ Branch ที่กำลังพัฒนาอยู่ในปัจจุบัน (master)
+    3. คำสั่งเปลี่ยน Branch : git checkout <branch-name> เช่น <branch-name>
+    4. ตรวจสอบ Branch อีกรอบด้วยคำสั่ง : git branch
+        - สังเกตว่า * จะไปอยู่หน้า Branch feature
+
+>> การ Merge คือ การนำไฟล์ใน branch ที่เราต้องการมารวมกัน
+
+# การ Merge Branch แบบไม่มี Conflict 
+    1. สร้างไฟล์.txt 2 ไฟล์ แล้ว add เข้าไปในแต่ละ Branch 
+        - คำสั่งตรวจสอบสถานะของไฟล์ : git status
+        - คำสั่งเพิ่มไฟล์ : git add <ชื่อไฟล์>
+        - คำสั่ง commit (เหมือน checkpoint) : git commit -m "Add <ชื่อไฟล์>.txt in branch feature"
+        - คำสั่งดู checkpoint : git log --all --decorate --oneline --graph
+
+    2. push master และ feature ขึ้น github
+        - คำสั่งอัพไฟล์ขึ้น github : git push origin <branch-name> เช่น git push origin feature
+
+    3. ลอง merge โดยให้ งานใน feature ไปรวมกันใน master
+        - เปลี่ยนไปที่ Branch ปลายทางก่อน (master) ใช้คำสั่ง : git checkout master
+        - คำสั่งรวม Branch (merge) feature ให้ไปอยู่ใน master : git merge feature
+        - เมื่อ merge แล้ว จะเห็นว่ามีทั้งไฟล์ master1.txt และ feature1.txt อยู่ใน Branch master
+        - สังเกต git log adog จะเห็นเส้นของการรวม Branch ใช้คำสั่ง : git log --all --decorate --oneline --graph
+
+    หมายเหตุ : เมื่อไม่มี conflict จะทำให้ git สร้าง commit ของการ merge นั้นไปเลย 
+              ดังนั้น เราจะต้องใส่ commit message ด้วย vi ถ้าใช้ default merge commit message ให้กด ESC แล้วพิมพ์ :wq! แล้วกด Enter
+
+    4. push master ขึ้น github จะถือว่าการ merge นั้นสมบูรณ์ ใช้คำสั่ง : git push origin master
+
+>> การ Pull คือ คล้าย clone แต่จะดึงเฉพาะไฟล์ที่มีเปลี่ยนแปลงมา
+
+# การ Pull แบบไม่มี Conflict
+    1. clone git repository มาไว้อีกเครื่องหนึ่ง หรือ directory ใหม่ เช่น git102
+        - git clone <git-url> git102 >> cd git102
+        - cd git102
+    2. เพิ่มไฟล์ new-1.txt ใน directory ใหม่ (git102) แล้ว push ไปที่ github
+        - git add new-1.txt >> git commit -m "add new-1.txt by user2" >> git push origin master
+    3. กลับมาที่เครื่องเก่า หรือ directory เก่า แล้ว pull การเปลี่ยนแปลงลงมาที่ local repository
+        - cd git101 >> ls -l (ไม่มีไฟล์ new-1.txt) >> git pull origin master (ดึงการเปลี่ยนแปลงจาก branch master) >> ls -l (มีไฟล์ new-1.txt)
+    
+# การ Merge แบบมี Conflict (มีความขัดแย้ง) เกิดจากการแก้ไขข้อมูลในไฟล์เดิม บรรทัดเดิม ที่อยู่ต่าง Branch กัน เมื่อ merge แล้ว git ไม่รู้ว่าจะใช้ข้อมูลจาก branch ใด
+    1. สร้าง Branch feature2 และสลับไป Branch นั้นเลย ด้วยคำสั่ง git checkout -b feature2
+    2. แก้ไฟล์ b.txt ใน branch feature2 และ master ในบรรทัดเดียวกัน ให้มีข้อความต่างกัน
+        - git checkout feature2 >> git status >> git add b.txt >> git commit -m "update b.txt first line in branch feature2" และทำอีกรอบกับ master
+    3. merge branch feature2 เข้าไปใน branch master (ไม่ต้อง push ก็ merge ได้) สังเกตว่า merge ไม่สำเร็จ
+        - git checkout master >> git merge feature2
+    4. เปิดไฟล์ b.txt ใน master จะเห็นว่า git สร้างข้อความที่อธิบาย conflict ให้ทำการแก้ไข conflict
+    5. เมื่อแก้ไขเสร็จให้ commit การ merge 
+        - git add b.txt >> git status >> git commit -m "merge branch 'feature2' and resolve conflict" >> git log --all --decorate --oneline --graph
+    6. push ขึ้น github : git push origin master
+
+# การ Pull แบบมี Conflict 
+    1. ในเครื่องใหม่ หรือ directory ใหม่ ให้แก้ไขข้อมูลใน new-1.txt แล้ว commit และ push ไปที่ github
+    2. ในเครื่องเก่า หรือ directory เก่า ให้แก้ไขข้อมูลใน new-1.txt บรรทัดเดียวกับข้อ 24 แล้ว commit
+    3. ก่อน Push ให้ Pull origin/master จะพบว่าการ Pull นี้ มี conflict เกิดขึ้น
+    4. แก้ไข conflict ในไฟล์ new-1.txt จากนั้นสร้าง commit แล้ว push ไปที่ github
+    5. ที่ directory ใหม่ จะเห็นว่า Checkpoint ตามหลัง origin/master อยู่ ให้ pull ลงมา สังเกตว่าจะไม่เกิด conflict เพราะไม่มีการแก้ไขอะไรเพิ่มเติม
